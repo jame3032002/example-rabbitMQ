@@ -12,3 +12,29 @@ services:
     volumes:
       - ./rabbitmq/data/:/var/lib/rabbitmq/
       - ./rabbitmq/log/:/var/log/rabbitmq
+
+  publisher:
+    container_name: publisher
+    ports:
+      - 2000:2000
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file: .env
+    environment: 
+      - SERVICE_NAME=publisher
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  logger:
+    container_name: logger
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file: .env
+    environment: 
+      - SERVICE_NAME=logger
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
