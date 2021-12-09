@@ -45,6 +45,7 @@ async function main () {
 
 router.get('/webhook', (req, res) => {
   const message = 'Hello World!!!'
+  console.log(`send message: ${message}`)
 
   ch.publish(RABBITMQ_EXCHANGE, '', Buffer.from(message))
   return res.json({ success: true })
