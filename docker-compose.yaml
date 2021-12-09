@@ -38,3 +38,27 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+
+  consumer1:
+    container_name: consumer-1
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file: .env
+    environment: 
+      - SERVICE_NAME=consumer
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  consumer2:
+    container_name: consumer-2
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file: .env
+    environment: 
+      - SERVICE_NAME=consumer
+    volumes:
+      - ./backend:/app
+      - /app/node_modules

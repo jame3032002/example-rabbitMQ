@@ -7,6 +7,9 @@ switch (SERVICE_NAME) {
   case 'logger':
     require('./services/logger')
     break
+  case 'consumer':
+    require('./services/consumer')
+    break
   default:
     app.use('/api', require('./routes'))
     break

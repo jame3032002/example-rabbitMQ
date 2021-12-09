@@ -14,7 +14,7 @@ async function logger () {
 }
 
 logger().then(() => console.log('Logger: online')).catch(err => {
-  console.error('Publisher: offline')
+  console.error('Logger: offline')
   console.error(err)
 
   throw new Error(err)
