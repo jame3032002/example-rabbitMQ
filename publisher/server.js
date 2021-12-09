@@ -3,6 +3,7 @@ const amqp = require('amqplib/callback_api')
 const app = express()
 const PORT = 2000
 
+let count = 0
 app.get('/', (req, res) => {
   amqp.connect('amqp://kajame:111111@localhost:5672', function (error0, connection) {
     if (error0) {
@@ -14,13 +15,12 @@ app.get('/', (req, res) => {
         throw error1
       }
 
-      const queue = 'hello'
-      const msg = 'Hello World!'
-
-      channel.assertQueue(queue, { durable: false })
+      const queue = 'task_queue'
+      const msg = `Hello World!-${count}`
+      channel.assertQueue(queue, { durable: true })
       channel.sendToQueue(queue, Buffer.from(msg))
-
-      console.log(' [x] Sent %s', msg)
+      console.log(" [x] Sent '%s'", msg)
+      count++
 
       return res.json({ success: true })
     })

@@ -10,13 +10,17 @@ amqp.connect('amqp://kajame:111111@localhost:5672', function (error0, connection
       throw error1
     }
 
-    const queue = 'hello'
-    channel.assertQueue(queue, { durable: false })
-    console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', queue)
+    const queue = 'task_queue'
+
+    // This makes sure the queue is declared before attempting to consume from it
+    channel.assertQueue(queue, { durable: true })
     channel.consume(queue, function (msg) {
-      console.log(' [x] Received %s', msg.content.toString())
-    }, {
-      noAck: true
-    })
+      const secs = Math.floor(Math.random() * 10) // msg.content.toString().split('-')[1]
+      console.log(' [x] Received %s %d', msg.content.toString(), secs)
+
+      setTimeout(function () {
+        console.log(' [x] Done')
+      }, secs * 1000)
+    }, { noAck: true })
   })
 })
